@@ -267,8 +267,8 @@ Java SE
 
         Class & Object
         Encapsulation
-        Polymorphisim
         Inheretence
+        Polymorphisim
         Abstraction
 
         Class & Object
@@ -290,7 +290,7 @@ Java SE
                 }
             }
 
-            Varaibles of class-type are called Object.
+            Variabels of class-type are called Object.
             Every object is dynamically allocated using 'new' keyword.
             Every object is a reference type.
 
@@ -366,4 +366,212 @@ Java SE
                     }
                 }
 
+            Constructors
+
+                is a special member function that gets invoked immidiately after the allocation of an object.
+
+                (+) the constructor must have the sme name as that of the class
+                (+) the construcotrs do not return any value (even not void).
+
+                Default Constructor         is a constructor with no-args.
+                Paramatrized Constructor    is a constructor with args. 
+                Copy Constructor            is a constructor with args, where one the args is an object of the owner class.
+
+                If a class is not defiend with any constructors, a default constructor is automatically attached to it by
+                the compiler.
+
+        Inheretence
+
+            is about creating a new class from an existing class.
+            the existing class is called the super-class, and teh new class is called the sub-class.
+            the fields and method of the super class are inhereted to the sub-class.
+
+            the keyword 'extends' is used to derive a sub-class from a super-class.
+
+            Simple Inhertence               One sub-class is dereived from one super-class
+                                            
+                                            Employee (empId,fullName,basicPay)  
+                                                |
+                                                | <------ ContractEmployee (empId,fullName,basicPay,contractDuration)  
+
+            Hirarchial Inheretence          Two or more sub-classes are dereived from one super-class
+
+                                            Employee (empId,fullName,basicPay)  
+                                                |
+                                                | <------ ContractEmployee (empId,fullName,basicPay,contractDuration)  
+                                                | <------ Manager (empId,fullName,basicPay,hra)  
+
+            Multi-Level Inheretence         A sub-class si derived from a super-class, and another sub-class is
+                                            derived from that sub-class and son on...
+            
+                                            Employee (empId,fullName,basicPay)  
+                                                |                                                
+                                                | <------ Manager (empId,fullName,basicPay,hra)  
+                                                            |
+                                                            | <------ Director (empId,fullName,basicPay,hra,share)  
+
+            Hybrid Inheretence              is a combination of multi-level and hirarchial./
+            
+                                            Employee (empId,fullName,basicPay)  
+                                                |                                                
+                                                | <------ ContractEmployee (empId,fullName,basicPay,contractDuration)  
+                                                | <------ Manager (empId,fullName,basicPay,hra)  
+                                                            |
+                                                            | <------ Director (empId,fullName,basicPay,hra,share)  
+
+            Multiple Inheretence            A sub-class is derived from two or more super-classes.
+                                            Java does not support multiple inheretence on classes.
     
+
+            Constructor Phenomenon
+
+                A super-class constructor is invoekd when an object of a super-class is allocated.
+                A super-class constructor followed by sub-class constructors are invoekd when an object of a sub-class is allocated.
+
+                Employee 
+                    | <- Manager 
+                           | <- Director 
+
+                Employee emp = new Employee();  //Employee constructor is invoked
+                
+                Manager mgr = new Manager(); //Employee constructor, followed by Manager constructor are invoked
+
+                Director d = new Director(); //Employee constructor, followed by Manager constructor, 
+                                             //followed by Director constructor are invoked
+
+            A few keywords
+
+                'this'          represents the current object for a method.
+
+                                class Employee {
+                                    //.....
+                                    public String getFullName() {
+                                        return this.fullName;
+                                    }
+                                    //....
+                                }
+
+                                Employee emp1 = new Employee(101,"Vamsy Kiran",55000);
+                                Employee emp2 = new Employee(102,"Sagar",55000);
+                                Employee emp3 = new Employee(103,"Pavan",55000);
+
+                                System.out.println(emp1.getFullName());// emp1 is the current object for getFullNAme
+                                System.out.println(emp2.getFullName());// emp2 is the current object for getFullNAme
+                                System.out.println(emp3.getFullName());// emp3 is the current object for getFullNAme
+
+                'this'          can also be used to invoke one construcotr from another construcotr.
+
+                                public class Employee {
+
+                                    private int empId;
+                                    private String fullName;
+                                    private double basicPay;
+                                    
+                                    public Employee() {
+                                        System.out.println("An employee object got crweated");        
+                                    }
+                                    
+                                    public Employee(int empId, String fullName, double basicPay) {
+                                        this();
+                                        this.empId = empId;
+                                        this.fullName = fullName;
+                                        this.basicPay = basicPay;
+                                    }
+
+                                    public Employee(Employee e) {
+                                        this(e.empId,e.fullName,e.basicPay);
+                                    }
+                                
+                                }
+
+                'super'         is used to invoke a super class construcotr from a sub-class constructor.
+                                if super keyword is not used in a sub-class constructor, the compiler will include it automatically.
+
+            Object References and casting
+
+                A super class reference can refer to a sub-class object.
+
+                Employee 
+                    | <- ContractEmployee 
+                    | <- Manager 
+                            | <- Director 
+
+                Employee emp1 = new Employee();
+                Employee emp2 = new ContractEmployee();
+                Employee emp3 = new Manager();
+                Employee emp4 = new Director();
+            
+                ContractEmployee cemp = (ContractEmployee) emp2;
+                Manager mgr = (Manager) emp3;
+
+                ContractEmployee cemp2 = (ContractEmployee) emp3; //this will raise ClassCastException
+
+            Default Super Class
+
+                java.lang.Object    is a built-in class which is the default super class for any java class either directly or indirectly.
+                                    if a class is not extending any other class, it is made to extend java.lang.Object at the compile time.
+                                    if a class is extending another class, that super class extends java.lang.Object.
+
+                                    java.lang.Object
+                                                |<- Employee 
+                                                        | <- ContractEmployee 
+                                                        | <- Manager 
+                                                            | <- Director 
+
+                                    Three important methods, must be always overriden in all the java classes
+                                        int hashcode()
+                                        boolean equals(Object)
+                                        String toString()
+
+        Polymorphisim
+
+            is the ability to have more than one method with the same name.
+
+            Overloading
+                two or more methods of the same class or of a hirarchy of classes, have the saem name but differ in
+                parameters types or parameter count or parameter order, then those methods are said to be overloaded.
+
+                class Animal {
+                    public void eat(Apple apple){
+                        while(apple.exists()){
+                            byteAndChewAndSwallow(apple);
+                        }
+                    }
+
+                    public void eat(IceCream iceCream){
+                        while(iceCream.exists()){
+                            lickAndSwallow(iceCream);
+                        }
+                    }
+                }
+
+                class Cow extends Animal {
+                    public void eat(Grass grass){
+                        while(grass.exists()){
+                            chewAndSwallow(grass);
+                        }
+                    }
+                }
+
+                class Tiger extends Animal {
+                    public void eat(Meat meat){
+                        while(meat.exists()){
+                            tearAndChewAndSwallow(meat);
+                        }
+                    }
+                }
+
+            Overriding
+
+                two or more methods from a super and a sub class, have the same name and same parameters list, then they are said to overridden
+
+                class Human extends Animal {
+                    @Override
+                    public void eat(Apple apple){
+                        wash(apple);
+                        Pieces[] pieces = cut(apple);
+                        for(Piece p : pieces) {
+                            chewAndSwallow(p);
+                        }
+                    }   
+                }
