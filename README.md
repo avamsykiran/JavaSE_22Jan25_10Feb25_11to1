@@ -575,3 +575,94 @@ Java SE
                         }
                     }   
                 }
+
+            Dynamic Polymorphsim / Late Binding
+
+                class MySuper {
+                    public void method() {
+                        
+                    }
+                }
+
+                class MySub1 extends MySuper {
+                    @Override
+                    public void method() {
+                        
+                    }
+                }
+
+                class MySub2 extends MySuper {
+                    @Override
+                    public void method() {
+                        
+                    }
+                }
+                
+                MySuper obj = new MySuper();
+                obj.method();   //called from MySuper
+                
+                MySuper obj1 = new MySub1();
+                obj1.method();   //called from MySub1
+
+                MySuper obj2 = new MySub2();
+                obj2.method();   //called from MySub2
+
+
+        Abstraction
+
+            is the process of representing non-concrete (abstract) behaviour or state.
+
+            non-concrete state menas, a state that is not ready to be instantiated.
+            non-concrete behaviour means, a behaviour that not yet implemented.
+
+            Abstraction in jave can achived through
+                (a) abstract classes
+                (b) interfaces
+                (c) abstract methods
+
+            A class marked with 'abstract' keyword is called an abstract class. And no
+            object can be allocated to an abstract class.
+
+                abstract class Person    id,fullName,gender,mobile,mailId
+                                |
+                                |<- class Principal    
+                                |<- class Student
+                                |<- class Staff
+                                |<- class Teacher
+
+            An interface is a user defined type that can not have fields. And no
+            object can be allocated to an interface as well. Interfaces support multiple
+            inheretence on classes, that means a class can implement more than one interface.
+
+            An abstract method represents a non-concrete behaviour that means it is a mehtod that has
+            no implementation. An abstract method can be declared either in a interface or in a abstract class.
+
+            If only abstract method has to be declared, we choose to declare it in a interface so that we have
+            the advantage of multiple inheretence.
+
+            But if an abstract method along with some fields are to be declared, we will have to
+            declare them in an abstract class only.
+                        
+            interface Father
+            interface Mother
+            interface Sibling
+            
+            abstract class Bird
+                            |<- class MaleBird      ---> Father, Sibling
+                            |<- class FemaleBird    ---> Mother, Sibling
+
+            abstract class Animal
+                            |<- class MaleAnimal    ---> Father, Sibling
+                            |<- class FemaleAnimal  ---> Mother, Sibling
+                            
+            More about Interfaces
+                1. By default the method in a interface is public and abstract.
+                2. Interfaces can have 'public static final' fields.
+                3. The keyword 'default' must be used to define a non-abstract mehtod in an interface (Java 8 onwards)
+                4. Interface can have static methods too (Java 8 onwards)
+                5. Interface can have privte methods too (Java 9 onwards)
+
+                6. Interface having no methods at all are called 'MARKER INTERFACES'. (eg: java.io.Serializable)
+                7. Interface having only one abstract methods are called 'FUNCTIONAL INTERFACES'. (eg: java.lang.Comparable)
+
+
