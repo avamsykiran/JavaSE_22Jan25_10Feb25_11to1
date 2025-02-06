@@ -665,4 +665,269 @@ Java SE
                 6. Interface having no methods at all are called 'MARKER INTERFACES'. (eg: java.io.Serializable)
                 7. Interface having only one abstract methods are called 'FUNCTIONAL INTERFACES'. (eg: java.lang.Comparable)
 
+        final
+
+            final variabels, the variabel becomes a constant
+
+            final methods, such methods can not be overriden
+
+            final classes, such classes can not be extended
+
+        static
+
+            static fields, such fields are called class variabels and non-static fields are called instance variabels.
+                            each object (instance) of a class will be allocated a sperate copy of all instance variables
+                            but class variables are allocated only once per class, and all objects are to share those
+                            class variabels.
+
+            static method, such methods (if public also) can be accessed by the class name without having to create an object.
+                            static methods can access only other static members of the class and they do not have
+                            access to 'this' keyword.
+
+    Java Built-in Packages
+    ----------------------------------------------------------------
+
+        java.lang               Object, Class, Wrapper Classes, System, Math, Comparable
+                                String, StringBuilder,StringBuffer, 
+                                Throwable, Exception, RuntimeException,
+                                Runnable, Thread
+
+        java.time               LocalDate,LocalTime,LocalDateTime,ZonedDateTime,Period,Duration,DateTimeFormatter
+
+        java.util               Scanner, StringTokenizer
+                                Collection,List,Set,Map,Comparator,...etc.,
+
+        java.util.function      a long list of functional interfaces
+
+        java.util.stream        Stream (Stream API)
+
+        java.io                 Input Output API
+        java.nio                Non-Blocking Input Output API
+
+        java.sql                JAva Database Connectivity
+
+    java.lang 
+    --------------------------------------------------------------
+
+        Fundamental Classes
+
+            Object              int hashCode(),boolean equals(Object), String toString()
+
+            System              static InputStream in
+                                static PrintWriter out
+                                static PrintWriter err
+
+            Math                a lot of static methods to perform mathematical operations lioke
+                                sin,cos,tan,exp,log,pow ..et.,
+
+        Wrapper Classes
+            Byte
+            Short
+            Integer
+            Long
+            Double
+            Float
+            Void
+            Boolean
+                                int x = 90;
+                                Integer iObj = x;   //auto-boxing
+                                int y = iObj;       //auto-unboxing
+
+        String Manipulation
+
+            String              String()
+                                String(byte[])
+                                String(StringBuilder)
+                                String(StringBuffer)
+
+                                length()
+                                int charAt(int index)
+                                int indexOf(String),int indexOf(char)
+                                boolean startsWtih(String),boolean endssWtih(String)
+                                boolean equals(String),boolean equalsIgnoreCase(String)
+                                String[] split(regexp)
+                                boolean match(regexp)
+                                String toUpperCase(),String toLowerCase(),
+                                String substring(int startIndex)
+                                String substring(int startIndex,int endIndex)
+
+                                static String valueOf(int)
+                                static String valueOf(byte)
+                                static String valueOf(float)
+                                ...etc.,
+
+
+                                String object are immutable, that means Strings can not be edited.
+
+                                String s1 = "Hello ";   //the reference of "Hello " is copied to s1
+                                s1 = s1 +"World"; //a new object "Hello Wrold" is allocated and that reference is copied to s1
+         
+            StringBuilder       is not thread-safe and out-performs Stringbuffer
+            StringBuffer        is thread-safe, hence is a little slow compared to StringBuilder
+                                
+                                these two classes are sued to manipulate a string without creating new string objects.
+
+                                append,insert,delete,replace,reverse ...etc.,
+    
+        Exception Handling
+
+            exception is a situatioon that may result in abrupt termination of our app.
+            
+            exception occure in erronomous senarios.
+
+            exception handling is a machanisim that can receive an exception and provide an alternate
+            execution safe-guarding the app from termination.
+
+            interface Throwable
+                        |
+                        |<- class Error
+                        |<- class Exception
+                                |
+                                |<- class RuntimeException
+
+            Exception class and its sub-classes are called CHECKED EXCEPTIONS
+
+            RuntimeException class and its sub-classes are called UN_CHECKED EXCEPTIONS
+
+            UN_CHECKED EXCEPTIONS
+
+                are called unchecked because the compiler will NOT check if these exception are handled or not.
+
+                compiler will not check because unchecked exception are to be avoided not handled.
+
+                ArrayIndexOutOfBoundsException  is a unchecked exception because it is derived from 
+                RuntimeException. This exception occurs if we try to use an index that is less than 0 or greater
+                than the length of an array .
+
+                    class EmpsService {
+                        
+                        private Employee[] emps;
+
+                        //......
+
+                        public Employee get(int index) {
+                            
+                            if(index<0 || index>=emps.length){  //we are avoiding ArrayIndexOutOfBoundsException
+                                return null;
+                            }
+
+                            return emps[index];
+                        }
+                    }
+
+            CHECKED EXCEPTIONS
+
+                are called checked because the compiler will check if these exception are handled or not.   
+                checked exception can not be avoided and thus must be compulsorly handled using try..catch
+
+                try{
+                    //statements that may raise an exception
+                }catch(ExceptionType1 exp){
+                    //exception handling code
+                }catch(ExceptionType2 exp){
+                    //exception handling code
+                }catch(ExceptionType3 exp){
+                    //exception handling code
+                }finally {
+                    //code written here will execute inrrespective of an exception been raised or not                    
+                    //even if the holding method returns before-hand, the finally block will still execute.
+
+                    //the purpose of a finally block is to close closable resources like
+                    //input output streams or connections ..et.,
+                }
+                
+                try{
+                    //statements that may raise an exception
+                }catch(ExceptionType1 | ExceptionType2 | ExceptionType3 exp){
+                    //exception handling code
+                }finally {
+                    
+                }
+
+                try (/*declaration of closable resources like streams or connections */ ) {
+                    //statements that may raise an exception
+                }catch(ExceptionType1 | ExceptionType2 | ExceptionType3 exp){
+                    //exception handling code
+                }
+
+                java.lang.Exception
+                            |
+                            |<- java.io.IOException
+                                            |
+                                            |<- FileNotFoundException
+
+                try(FileInputStream fin = new FileInputStream(filename)){
+                    //work with fin
+                }catch(FileNotFoundException fe){
+                    
+                }catch(IOException ioe){
+                    
+                }
+
+            throw keyword
+
+                is used to raise a exception.
+
+            throws keyword
+
+                is used to tranfer an exception from a method to its calling method.
+
+        Multi-Threading
+
+            A process is any active program. A program once triggered and it statrts its execution its called a process.
+            Every process has a few memory blocks:
+                (a) programCounter      is the line number of the code thats getting executed as of now.
+                (b) stack               is used to keep track of method calls and has the local variables
+                (c) heap                is sued to hold the code and non-local varaibles/objects ..etc.,
+
+                A two processes can share any of the above three memory blocks.
+
+                If an OperatingSsytem can execute more than one process side-by-side, its called multi-processing.
+
+            A thread is a process that has a shared heap, with other threads in the same application-group.
+
+                If in an application, we ahve one or more threads , we call it multi-threading.
+
+
+            In java, every java program is a thread by itself. Every method executes within a thread.
+
+            interface java.lang.Runnable            void run()
+                                    |
+                                    |<- Thread      Thread()
+                                                    Thread(String name)
+                                                    Thread(Runnable task)
+                                                    Thread(Runnable task,String name)
+
+                                                    String getName();
+                                                    void setName(String name);
+                                                    int getPriority();
+                                                    void setPriority(int);
+
+                                                    start();
+                                                    join();
+
+                                                    static Thread currentThread();
+                                                    static void sleep(long delayMs);
+
+    java.time
+    --------------------------------------------------------------------------
+
+        LocalDate           .now(),.of(year,month,day)
+        LocalTime           .now(),.of(hour,minute,second)
+        LocalDateTime       .now(),.of(year,month,day,hour,minute,second))
+        ZonedDateTime       .now(zoneId)
+
+                            Member functions
+                            -----------------
+                            getDate,getYear,getMonth,getHours,getMinites,getSecond
+                            equals, before, after
+                            plusDay,plusMonths,plusYears,plusHours,plusMinutes,plusSeconds
+                            minusDay,minusMonths,minusYears,minusHours,minusMinutes,minusSeconds
+
+        DateTimeFormatter   .ofPattern(String dateTimePattern)
+        
+        Period              .between(startDate,endDate)
+        Duration            .between(startTime,endTime)
+
+
 
