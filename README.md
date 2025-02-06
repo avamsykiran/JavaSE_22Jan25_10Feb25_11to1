@@ -929,5 +929,113 @@ Java SE
         Period              .between(startDate,endDate)
         Duration            .between(startTime,endTime)
 
+    java.util      
+    --------------------------------------------------------------------------
+
+        Legacy Classes
+
+            Random
+                    Random r1 = new Random();
+                    System.out.println(r1.nextInt());
+                    System.out.println(r1.nextInt());
+                    System.out.println(r1.nextInt());
+
+                    Random r2 = new Random(786);
+                    System.out.println(r2.nextInt());
+                    System.out.println(r2.nextInt());
+                    System.out.println(r2.nextInt());
+
+            Scanner
+                is used to read porimitive values from an input stream.                               
+
+        Collections
+
+            is the data-structure implemented in java library.
+
+            Collection (i)
+                |               represents an abstract definition of a data-structure
+                |               size(),empty(),add(ele),remove(ele),iterator(),contains(ele),stream()
+                |
+                |<--List (i)
+                |               represents linear data-structure
+                |               a linear has elemetns arranged in insertion order linearly
+                |               each element has an index and index based operations are possible
+                |
+                |               first(),last(),get(int index),removeAt(int index)
+                |
+                |               in a list, duplicate elements are allowed and any number of null(s) are
+                |               also allowed
+                |
+                |   |<- class Vector        is a synchronized grwable array
+                |   |<- class ArrayList     is a non-synchronized growable array
+                |   |<- class LinkedList    is a doublly linked list algorithm implemented.
+                |
+                |<--Set (i)
+                |               represents a non-linear data-structure
+                |               the elements are not arranged in order that gives scoep to have index.
+                |               no duplicate elements are allowed and only one null element is allowed.
+                |
+                |   |<- class HashSet       is a set where no retrival order can be pridicte.
+                |   |<- class LinkedHashSet is a set where elements are retrived in the entry order.
+                |   |<- class TreeSet       is a set where elements are retrived in the natural sorted order.    
+
+            Map (i)
+                |           represents a collection of key,value pairs
+                |           size(),get(key),put(key,value),set(key,value),keySet(),containsKey(key)
+                |
+                |<- class HashMap       is a map where no retrival order can be pridicte.
+                |<- class LinkedHashMap is a map where elements are retrived in the entry order.
+                |<- class TreeMap       is a map where elements are retrived in the natural sorted order on key.    
 
 
+            class Collections
+                is a class that offers a list of public static function for a variety of utility operations.
+
+                Collections.sort(empsList);                    //it assuems natural sort, it uses java.lang.Comparable
+                Collections.sort(empsList,comparatorObj);     //it uses the given custom sort order
+
+            interface java.lang.Comparable
+                gives the natural order
+
+                abstract int compareTo(object);
+
+                class Employee implements Comparable {
+                    //override compareTo method
+                }
+
+                emp1.compareTo(emp2)            this should return
+                                                        0 if emp1 and emp2 are equal
+                                                        -ve number if emp1 is lesser than emp2
+                                                        +ve number if emp1 is greater than emp2
+
+            interface java.util.Comparator
+                gives a customized order
+
+                abstract int compare(object,object);
+
+                class EmployeeNameComparator implements Comparator {
+                    //override compare method
+                }
+
+                empNameComparattor.compare(emp1,emp2)  this should return
+                                                        0 if emp1 and emp2 are equal
+                                                        -ve number if emp1 is lesser than emp2
+                                                        +ve number if emp1 is greater than emp2
+
+            Generics
+                is a concept of abstract-data-types (ADTs).
+                Alows to assume an imaginary data type, that will be realized before invoking the method.
+
+                class Swapper<T> {
+                    public void swap(T a,T b) {
+                        T temp = a;
+                        a = b;
+                        b = temp;
+                    }
+                }
+
+                Swapper<String> s1 = new Swapper<>();
+                s1.swap("Hello ","World ");
+                Swapper<Employee> s2 = new Swapper<>();
+                s2.swap(emp1,emp2);
+            

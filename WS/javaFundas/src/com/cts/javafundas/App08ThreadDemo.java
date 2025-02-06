@@ -1,32 +1,40 @@
 package com.cts.javafundas;
 
-import java.time.LocalDate;
-import java.time.Period;
-import java.time.format.DateTimeFormatter;
-import java.util.Scanner;
+import com.cts.javafundas.models.Bus;
+import com.cts.javafundas.service.NumericSeries;
+import com.cts.javafundas.service.ReservationService;
 
 public class App08ThreadDemo {
 
 	public static void main(String[] args) {
-	
-		Scanner scan = new Scanner(System.in);
 		
-		final String format = "dd-MMM-yyyy";
+		Bus bus = new Bus(25);
 		
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern(format);
+		ReservationService r1 = new ReservationService(bus, 10);
+		ReservationService r2 = new ReservationService(bus, 10);
+		ReservationService r3 = new ReservationService(bus, 10);
 		
-		LocalDate today = LocalDate.now();
-		System.out.println(today);
-		System.out.println(today.format(formatter));
+		Thread t1 = new Thread(r1);
+		Thread t2 = new Thread(r2);
+		Thread t3 = new Thread(r3);
 		
-		System.out.println("DoB("+format+")? ");
-		LocalDate dob = LocalDate.parse(scan.next(), formatter);
+		t1.start();
+		t2.start();
+		t3.start();
 		
-		Period age = Period.between(dob, today);
-		System.out.println(String.format("You are %d years, %d months and %d days old", age.getYears(),age.getMonths(),age.getDays()));
+		System.out.println("Reservation Started! Please wait ...!");
 		
+		try {
+			t1.join();
+			t2.join();
+			t3.join();
+		} catch (InterruptedException e) {		
+			e.printStackTrace();
+		}
 		
-		scan.close();
+		System.out.println("First Service: "+ r1.getSeatsReserved());
+		System.out.println("Second Service: "+ r2.getSeatsReserved());
+		System.out.println("Third Service: "+ r3.getSeatsReserved());
 	}
 
 }
