@@ -1,17 +1,19 @@
 package com.cts.javafundas;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 import com.cts.javafundas.models.Employee;
 import com.cts.javafundas.service.EmployeeNameWiseComparator;
 
-public class App10CollectionsDemo {
+public class App11CollectionsDemo {
 
 	public static void main(String[] args) {
 	
-		List<Employee> emps = new ArrayList<>();
+		//Set<Employee> emps = new HashSet<>();
+		//Set<Employee> emps = new LinkedHashSet<>();
+		//Set<Employee> emps = new TreeSet<>();
+		Set<Employee> emps = new TreeSet<>(new EmployeeNameWiseComparator());
 		
 		emps.add(new Employee(1, "Vamsy",45000));
 		emps.add(new Employee(9, "Varun",48000));
@@ -29,21 +31,7 @@ public class App10CollectionsDemo {
 		for(Employee emp:emps) {
 			System.out.println(emp);
 		}
-		
-		System.out.println("---------------------------------------");
-		
-		Collections.sort(emps);
-		for(Employee emp:emps) {
-			System.out.println(emp);
-		}
-
-		System.out.println("---------------------------------------");
-		
-		Collections.sort(emps,new EmployeeNameWiseComparator());
-		for(Employee emp:emps) {
-			System.out.println(emp);
-		}
-
+						
 	}
 
 }

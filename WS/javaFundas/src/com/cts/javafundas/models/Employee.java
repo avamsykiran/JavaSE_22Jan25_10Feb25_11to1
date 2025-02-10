@@ -2,7 +2,7 @@ package com.cts.javafundas.models;
 
 import java.util.Objects;
 
-public class Employee {
+public class Employee implements Comparable<Employee> {
 
 	public static final double TAX = 0.10;
 	
@@ -74,6 +74,11 @@ public class Employee {
 		Employee other = (Employee) obj;
 		return Double.doubleToLongBits(basicPay) == Double.doubleToLongBits(other.basicPay) && empId == other.empId
 				&& Objects.equals(fullName, other.fullName);
+	}
+
+	@Override
+	public int compareTo(Employee o) {
+		return ((Integer)this.empId).compareTo(o.empId);
 	}
 
 	

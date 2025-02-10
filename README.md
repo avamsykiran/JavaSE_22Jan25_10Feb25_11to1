@@ -1039,3 +1039,173 @@ Java SE
                 Swapper<Employee> s2 = new Swapper<>();
                 s2.swap(emp1,emp2);
             
+    java.util.function
+    --------------------------------------------------------------------------
+
+        is a package offers a long list of funtional interfaces.
+
+        Reminding, a functional interface is an interface having only one abstract function.
+
+        A functional interface can be instatiated and implemented at a time using Lambda Expressions
+
+        A Lambda Expression is a mapping between arguments and returnValue or arguments and methodBody.
+
+            (args) -> returnValue;
+
+            (args) -> {
+                //methodBody
+            };
+
+        @FunctionalInterface
+        interface Greeting {
+            String greet();            
+        }
+
+        class GreetingImpl implements Greeting {
+            @Override
+            public String greet(){
+                return "Hai ";
+            }
+        }
+
+        class App{
+            public static void main(String args[]){
+                
+                Greeting g = new GreetingImpl();
+                System.out.println(g.greet());
+                
+                Greeting g1 = () -> "Hello ";
+                System.out.println(g1.greet());
+
+                Greeting g2 = () -> {
+                    String greetResult = null;
+                    int h = LocalTime.now.getHours();
+
+                    if(h>=3 && h<=11) greetResult = "Good Morning ";
+                    else if(h>11 && h<=14) greetResult = "Good Noon ";
+                    else greetResult = "Good Evening ";
+
+                    return greetResult;
+                };
+                System.out.println(g2.greet());
+
+            }
+        }
+
+        Supplier    means that the method in that interface has NO-ARGS but returns a value
+        Consumer    means that the method in that interface HAS ARGS but NO-RETURN-VALUE
+        Predicate   means that the method in that interface always return boolean
+        Operator    means that the method in that interface the same data type for args and return-value
+
+        Method References
+            we can make a ref of a functional interface refer to a method, as along as the refered method has
+            the same signature as that of the method in the fiunctional interface.
+
+            java.util.function.Consumer<T>  void accept(T t)
+
+            Consumer<String> c1 = (x) -> {
+                for(int i=1;i<=10;i++){
+                    System.out.println(s);
+                }
+            };
+
+            c1.accept("Vamsy");
+
+            Consumer<Object> c2 = System.out::println;
+            c2.accpet(emp);
+
+    java.util.stream
+    --------------------------------------------------------------------------------
+
+        offers Stream API.
+
+        A stream is a flow of data from a source like an array or a collection and to 
+        another array or collection or termination, a certain set odf operations are executed
+        on each element in that flow while they flow from one source to another.
+
+        ArrayOrCollection ----↓
+                            [ OPERATION 1] ----↓
+                                             [ OPERATION 2] ----↓   
+                                                        [ OPERATION 3] ----↓
+                                                                        AnotherCollectionOrTermination
+
+        Each of these operations are represented by a Functional Interface
+
+        Stream s1 = Arrays.stream(array);
+        Stream s2 = listObj.stream();
+        Stream s3 = setObj.stream();
+        Stream s4 -= Stream.of(ele,ele2,ele3);
+
+        Methods in Stream class
+        
+            forEach     takes a consumer and executes the consuemr on each element of the stream and returns nothing.
+
+                        empsList.stream().forEach(System.out::println);
+
+                        this is a terminal operation as it is not returning a stream, and hence no more stream operations can be executed.
+
+            collect     takes a collector and returns a collection
+
+                        Stream<Employee> s = empsList.stream();
+                        Set<Employee> empsSet = s.collect(Collectors.toSet());
+
+                        this is a terminal operation as it is not returning a stream, and hence no more stream operations can be executed.
+
+            reduce      takes a binaryOperator, and execute on each of the elements in the stream.
+                        returns the final resultant object.
+
+                        BinaryOperator<Integer> sum = (a,b) -> (a=b);
+
+                        Stream<Integer> s1 = Stream.of(1,2,3,4,5);
+                        int result = s1.reduce(sum,0);
+                                        // sum(sum(sum(sum(sum(0,1),2),3),4),5)
+                                        // result will be 15
+
+                        this is a terminal operation as it is not returning a stream, and hence no more stream operations can be executed.
+
+            filter      takes a predicate and executes that predicate on each element of the stream
+                        returns a new stream of elements that got true for that predicate.
+
+                        Stream<Employee> s1 = emps.stream();
+                        Stream<Employee> s2 = s1.filter( e -> e.getSalary()>=45000 );
+
+                        this is a intermediate operation as it returns a stream and that stream can execute another operation
+
+            map         takes a functionalInterface to tranform each element in the stream into another element.
+                        returns a new stream of results.
+
+                        Stream<Employee> s1 = emps.stream();
+                        Stream<String> s2 = s1.map( e -> String.format("%s earns %d as salary per month",e.getName(),e.getSalary) );
+
+                        this is a intermediate operation as it returns a stream and that stream can execute another operation
+
+    java.io and java.nio
+    -------------------------------------------------------------------
+
+        java.io         offers input , output streams
+
+                        IOException
+                        FileNotFoundException
+
+                        abstract class InputStream      represents a binary stream that carries data into the app
+                                            |
+                                            |<- FileInputStream
+                                            |<- ObjectInputStream
+                                            |<- DataInputStream
+
+                        abstract class OutputStream     represents a binary stream that carries data out of the app
+                                            |
+                                            |<- FileOutputStream
+                                            |<- ObjectOutputStream
+                                            |<- DataOutputStream
+
+                        abstract class Reader      represents a text stream that carries data into the app
+                                        |
+                                        |<- InputStreamReader
+                                        |<- FileReader
+                                        |<- BuffredReader
+
+                        abstract class Writer      represents a text stream that carries data out of the app 
+                                        |
+                                        |<- PrintWriter
+                                        |<- FileWriter
