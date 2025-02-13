@@ -1209,3 +1209,123 @@ Java SE
                                         |
                                         |<- PrintWriter
                                         |<- FileWriter
+
+        java.nio        non-blocking input output operations
+
+                        Path
+                        Paths
+                        Files
+
+    java.sql
+    ------------------------------------------------------------------------------
+
+        Java Database Connectivity is a spacification that has a few interfaces and abstract functions
+        guiding the operations needed to execute sql-statemetns againt an RDBMS.
+
+        These specifications are implemented by thrid party implementation providers called DRIVERS.
+
+        RDBMS <-------> DRIVER <------> JDBC <------> Java_App
+        
+        MySQL         <-------> MySQLConnectorJDriver
+        ORACLE        <-------> OracleThinDriver       <------> JDBC <------> Java_App
+        MsSQL SERVER  <-------> MsJetDriver
+
+        java.sql
+            DriverMAanger
+            Connection
+            Statement
+            PreparedStatement
+            CallabelStatement
+            ResultSet
+            DatabaseMetadata
+
+        To work with an RDBMS
+
+            Step1:      Open a connection
+
+                        Connection con = DriverManager.getConnection(databaseConnectionString,userId,pwd);
+
+                                        databaseConnectionString
+                            Oracle      jdbc:oracle:thin:@localhost:1521:DatabaseServcieId
+                            MySQL       jdbc:mysql://localhost:3306:databaseName
+
+            Step2:      Execute a Statement
+
+                        Option1:
+                            Statement st = con.createStatement();
+
+                            boolean isOK = st.execute(ddlQuery); //CREATE/ALTER/DROP
+                            int rowsCount = st.executeUpdate(dmlQeury); // INSERT/UPDATE/DELETE
+                            ResultSet rs = st.executeQuery(selectQuery); 
+
+                            A single Statement can execute any number of different queires
+                            A Statement does not support parameters.
+                            
+                        Option2:
+                            PreparedStatement pst = con.prepareStatement(sqlQuery);
+
+                            boolean isOK = pst.execute(); //CREATE/ALTER/DROP
+                            int rowsCount = pst.executeUpdate(); // INSERT/UPDATE/DELETE
+                            ResultSet rs = pst.executeQuery();                             
+
+                            A single PreparedStatement can execute only one query
+                            A PreparedStatement supports parameters.
+
+                            pst.setInt(paramIndex,paramValue);
+                            pst.setString(paramIndex,paramValue);
+                            pst.setDouble(paramIndex,paramValue);
+                            pst.setDate(paramIndex,paramValue);
+                            ....etc.,
+                            
+                        ResultSet
+                            is a collection of rows retrived after executing a select query.
+
+                            boolean next();     //moves the record pointer from a row to the next.
+                                                //returns false if no more rows to move to.
+
+                            getInt(colIndex);
+                            getDouble(colIndex);
+                            getString(colIndex);
+                            getFloat(colIndex);
+                            getDate(colIndex);
+                            ....etc.,
+
+    Multi-Layer Architecture
+    -----------------------------------------------------
+
+        A multi layer application is built layer by layer, where each layer represents
+        one isolated resposibility.
+
+        RDBMS   <---driver-on-jdbc---> DAO  <----model----> SERVICE <----model----> UI
+
+        DAO     Data Access Object      is to hold all database related logic like 
+                                        insertion, updation, deletion or retrival.
+
+        SERVICE                         is to hold bussiness logic like
+                                        validations, computations, ...etc.,
+
+        UI      User Interface          is to hold any input / output related logic
+                                        like accepting commands or data from user or displaying data ..etc.,
+
+        model                           is a domain-object class like Employee, Custoemr, Vehicle ...etc.,
+
+        Both DAO layer and SERVICE layer must have an interface and an implementation class each.
+
+        The interface acts as the abstraction layer or contract between the current layer and its upstream layer.
+
+    Maven Build Tool
+    -----------------------------------------------------
+
+        Build tool is used to manage project life cycle events and third party dependencies.
+
+        Maven and gradle are the most common build tools for java projects.
+
+        Maven identifies a java project or its dependencies through 'artifact-id' and 'group-id'.
+
+        group-id is like surname of a family, All projects developed by one organization or team have the same group-id
+
+        artifact-id is the unique name given to that particular proejct.
+
+        Maven uses 'pom.xml' file to maintain project details, project setup details and list of thrid party dependencies.
+
+        
